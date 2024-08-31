@@ -5,7 +5,11 @@
 int main() {
     int choice;
     int rows, cols, rows2, cols2, scalar, trace;
+    int jumlahMatriks, skalar[10];
     int matrix1[100][100], matrix2[100][100], result[100][100];
+    int matrix[10][100][100];
+    int matrix2x2[2][2];
+    float inversResult[2][2];
 
     do {
         printf("\n=== MENU OPERASI MATRIKS ===\n");
@@ -17,7 +21,9 @@ int main() {
         printf("6. Trace Matriks\n");
         printf("7. Inisiasi Matriks Nol\n");
         printf("8. Inisiasi Matriks Identitas\n");
-        printf("0. Keluar\n");
+        printf("9. Kombinasi Linear Matriks\n");
+        printf("10.Invers Matriks (Dibalikim) \n");
+		printf("0. Keluar\n");
         printf("Pilih operasi (0-8): ");
         scanf("%d", &choice);
 
@@ -130,6 +136,42 @@ int main() {
                 printf("\nMatriks identitas:\n");
                 printMatrix(rows, rows, result);
                 break;
+                
+			case 9: // Kombinasi Linear Matriks
+                printf("Masukkan jumlah matriks yang akan dikombinasikan: ");
+                scanf("%d", &jumlahMatriks);
+                for (int m = 0; m < jumlahMatriks; m++) {
+                    printf("Masukkan jumlah baris matriks %d: ", m+1);
+                    scanf("%d", &rows);
+                    printf("Masukkan jumlah kolom matriks %d: ", m+1);
+                    scanf("%d", &cols);
+                    printf("Masukkan elemen-elemen matriks %d:\n", m+1);
+                    inputMatrix(rows, cols, matrix[m]);
+                    printf("Masukkan skalar untuk matriks %d: ", m+1);
+                    scanf("%d", &skalar[m]);
+                }
+                kombinasiLinearMatriks(rows, cols, jumlahMatriks, matrix, skalar, result);
+                printf("\nHasil kombinasi linear matriks:\n");
+                printMatrix(rows, cols, result);
+                break;
+
+            case 10: // Invers Matriks (Balikin)
+                printf("Masukkan jumlah baris matriks: ");
+                scanf("%d", &rows);
+                printf("Masukkan jumlah kolom matriks: ");
+                scanf("%d", &cols);
+                if (rows == 2 && cols == 2) {
+                    printf("Masukkan elemen-elemen matriks 2x2:\n");
+                    inputMatrix2x2(matrix2x2);
+                    if (inversMatriks2x2(matrix2x2, inversResult)) {
+                        printf("\nInvers matriks:\n");
+                        printMatrixFloat2x2(inversResult);
+                    }
+                } else {
+                    printf("Fungsi invers hanya diimplementasikan untuk matriks 2x2.\n");
+                }
+                break;
+
 
             case 0:
                 printf("Keluar dari program.\n");
